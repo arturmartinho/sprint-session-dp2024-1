@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Get-it</title>
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    {{ user.first_name }} 
+    <form action="{% url 'logout' %}" method="post">
+      <button type="submit">Sair</button>
+      {% csrf_token %}
+    </form>
+    
+    {% endif %}
+  
+    {% block content %} {% endblock %}
+  </body>
+</html>
