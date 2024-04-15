@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adicionar Pergunta</title>
+</head>
+<body>
+    <h1>Adicionar Formulario</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="texto">Texto da Pergunta:</label>
+        <textarea name="texto" required></textarea><br>
+        <label for="tipo">Tipo de Pergunta:</label>
+        <select name="tipo" required>
+            <option value="TXT">Texto</option>
+            <option value="INT">Intervalo</option>
+            <option value="MUL">Múltipla Escolha</option>
+        </select><br>
+        <div id="opcoes" style="display: none;">
+            <label for="opcao">Opções (se for múltipla escolha):</label><br>
+            <input type="text" name="opcao"><br>
+        </div>
+        <button type="submit">Adicionar</button>
+    </form>
+    <script>
+        document.querySelector('select[name="tipo"]').addEventListener('change', function() {
+            if (this.value === 'MUL') {
+                document.getElementById('opcoes').style.display = 'block';
+            } else {
+                document.getElementById('opcoes').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
