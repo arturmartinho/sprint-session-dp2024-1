@@ -28,3 +28,4 @@ class Pergunta(models.Model):
 class Opcao(models.Model):
     pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
     texto = models.CharField(max_length=100)
+
