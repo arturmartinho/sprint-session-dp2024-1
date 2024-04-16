@@ -19,25 +19,35 @@ from django.contrib.auth.decorators import login_required
 #         email = request.POST.get('email')
 #         senha = request.POST.get('senha')
 
+def index(request):
+    return render(request, 'usuarios/index.html')
+
 def cadastrar(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
-        first_name = request.POST.get('primeiro nome',None)
-        last_name = request.POST.get('ultimo nome', None)
+        first_name = request.POST.get('primeiro_nome',None)
+        last_name = request.POST.get('ultimo_nome', None)
         email = request.POST.get('email',None)
         password = request.POST.get('senha',None)
+        print(username,first_name,last_name,email,password)
         if username and first_name and last_name and email and password:
             user = User.objects.create_user(username=username,first_name=first_name,last_name=last_name,email=email,password=password)
             return redirect('login')
+        
         else:
             return HttpResponse('usuario nao foi cadastrado')
         
-    # return render(request,)
+    return render(request, 'usuarios/cadastro.html')
 
 
-def login(request):
+def er(request):
     print(request.user, request.user.first_name, request.user.last_name)
-    return render(request, 'notes/cadastro.html')
+    # return HttpResponse('usuario foi cadastrado')
+    # return render(request, 'notes/cadastro.html')
+
+
+
+    
 
 
 
