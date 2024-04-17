@@ -1,10 +1,16 @@
 html {
     font-size: 16px;
-    font-family: sans-serif;
+    font-family: "Open Sans" sans-serif;
 }
 
 body {
     display: flex;
-    background-color: #ffffff;
+    background-color: #cdc9c9;
     color: #000000;
+}
+
+button {
+    align-self: flex-end;
+    height: 4rem;
+    width: 7rem;
 }
