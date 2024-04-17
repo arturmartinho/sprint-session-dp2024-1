@@ -1,14 +1,15 @@
 from django.db import models
 
-class Usuarios(models.Model):
-    email = models.CharField(max_length=70)
-    senha = models.CharField(max_length=70)
-    def __str__(self) -> str:
-        return f"{self.id} .{self.email}"     
+# class Usuarios(models.Model):
+#     email = models.CharField(max_length=70)
+#     senha = models.CharField(max_length=70)
+#     def __str__(self) -> str:
+#         return f"{self.id} .{self.email}"     
     
 
 class Formulario(models.Model):
     nome = models.CharField(max_length=100)
+    descricao = models.CharField(max_length=9999)
     data_criacao = models.DateTimeField(auto_now_add=True)
 
 class Pergunta(models.Model):

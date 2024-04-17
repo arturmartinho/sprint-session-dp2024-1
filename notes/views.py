@@ -48,8 +48,7 @@ def er(request):
     # return render(request, 'notes/cadastro.html')
 
 
-
-    
+#----------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -57,8 +56,10 @@ def er(request):
 
 def criar_formulario(request):
     if request.method == 'POST':
-        nome = request.POST.get('nome')  
-        formulario = Formulario.objects.create(nome=nome)
+        nome = request.POST.get('nome')  # Usar get() para evitar exceção se a chave não existir
+        descricao = request.POST.get('descricao')
+        formulario = Formulario.objects.create(nome=nome,descricao=descricao)
+
         return redirect('detalhes_formulario', formulario_id=formulario.id)
     return render(request, 'criar_formulario.html')
 
@@ -67,6 +68,7 @@ def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
     perguntas = Pergunta.objects.filter(formulario=formulario)
     return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas})
+
 
 def adicionar_pergunta(request, formulario_id):
     if request.method == 'POST':
