@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Formulário</title>
+</head>
+<body>
+    <h1>Detalhes do Formulário</h1>
+    <p><strong>Nome do Formulário:</strong> {{ formulario.nome }}</p>
+    <p><strong>Data de Criação:</strong> {{ formulario.data_criacao }}</p>
+    <h2>Perguntas do Formulário:</h2>
+    <ul>
+        {% for pergunta in perguntas %}
+            <li>{{ pergunta.texto }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

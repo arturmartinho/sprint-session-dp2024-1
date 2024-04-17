@@ -53,12 +53,15 @@ def er(request):
 
 
 
+# views.py
+
 def criar_formulario(request):
     if request.method == 'POST':
-        nome = request.POST.get('nome')  # Usar get() para evitar exceção se a chave não existir
+        nome = request.POST.get('nome')  
         formulario = Formulario.objects.create(nome=nome)
         return redirect('detalhes_formulario', formulario_id=formulario.id)
     return render(request, 'criar_formulario.html')
+
 
 def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
