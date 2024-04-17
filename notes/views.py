@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Formulario, Pergunta, Opcao
+
 
 # def cadastrar(request):
 #     if request.method == 'POST':
@@ -77,5 +78,32 @@ def adicionar_pergunta(request, formulario_id):
                 Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
         return redirect('detalhes_formulario', formulario_id=formulario_id)
     return render(request, 'adicionar_pergunta.html')
+
+def editar_pergunta(request, pergunta_id):
+    pergunta = get_object_or_404(Pergunta, id=pergunta_id) ## se n achar a pergunta com o id, ele consegue retornar uma pagina 404.
+    if request.method == 'POST':
+        texto = request.POST['texto'] ##pegar os dados do formulario 
+        tipo = request.POST['tipo']
+        pergunta.texto = texto #pra atualizar os novos campos de texto e tipo da perguta
+        pergunta.tipo = tipo 
+        pergunta.save() ##deixar salvo no banco de dados
+        if tipo == pergunta.MULTIPLA_ESCOLHA: ##atualizar as opçoes se for de multipla escolha
+            opcoes = request.POST.getlist('opcao')
+            pergunta.opcao_set.all().delete() ##apaga as opçoes existentes
+            for opcao_texto in opcoes:
+                Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
+        return redirect('detalhes_formulario', formulario_id=pergunta.formulario.id) ##voltar pra pagina de detalhes do formulario
+    return render(request,'editar_pergunta.html' , {'pergunta': pergunta}) ##renderizar o template de pergunta caso n for POST
+
+
+def excluir_perguntar(request, pergunta_id):
+    pergunta = get_object_or_404(Pergunta, id=pergunta_id) ##tb serve pra retornar um 404, caso n ache a pergunta
+    formulario_id = pergunta.formulario.id 
+    if request.method == 'POST':
+        pergunta.delete()
+        return redirect('detalhes_formulario', formulario_id=formulario_id)
+    return render(request, 'excluir_pergunta.html', {'pergunta': pergunta})
+
+
 
 
