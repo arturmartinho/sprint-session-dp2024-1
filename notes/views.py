@@ -46,12 +46,16 @@ def er(request):
     print(request.user, request.user.first_name, request.user.last_name)
     # return HttpResponse('usuario foi cadastrado')
     # return render(request, 'notes/cadastro.html')
+
+
 # views.py
 
 def criar_formulario(request):
     if request.method == 'POST':
-        nome = request.POST.get('nome')  
-        formulario = Formulario.objects.create(nome=nome)
+        nome = request.POST.get('nome')  # Usar get() para evitar exceção se a chave não existir
+        descricao = request.POST.get('descricao')
+        formulario = Formulario.objects.create(nome=nome,descricao=descricao)
+
         return redirect('detalhes_formulario', formulario_id=formulario.id)
     return render(request, 'criar_formulario.html')
 
@@ -60,6 +64,7 @@ def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
     perguntas = Pergunta.objects.filter(formulario=formulario)
     return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas})
+
 
 def adicionar_pergunta(request, formulario_id):
     if request.method == 'POST':
@@ -99,6 +104,7 @@ def excluir_perguntar(request, pergunta_id):
         pergunta.delete()
         return redirect('detalhes_formulario', formulario_id=formulario_id)
     return render(request, 'excluir_pergunta.html', {'pergunta': pergunta})
+
 
 
 
