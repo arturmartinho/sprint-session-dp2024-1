@@ -46,13 +46,6 @@ def er(request):
     print(request.user, request.user.first_name, request.user.last_name)
     # return HttpResponse('usuario foi cadastrado')
     # return render(request, 'notes/cadastro.html')
-
-
-
-    
-
-
-
 # views.py
 
 def criar_formulario(request):
