@@ -1,20 +1,20 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <title>Get-it</title>
-    <link rel="stylesheet" href="/reset.css"  type="text/css">
-    <link rel="stylesheet" href="/style.css"  type="text/css">
+    <link rel="stylesheet" href="..\reset.css"  type="text/css">
+    <link rel="stylesheet" href="..\style.css"  type="text/css">
   </head>
   <body>
-    {% if user.is_authenticated %}
-    {{ user.first_name }} <form action="{% url 'logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Sair</button>
-    </form>
-    {% endif %}
-  
-    {% block content %} {% endblock %}
+    <header1>
+        {% if user.is_authenticated %}
+        {{ user.first_name }} <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Sair</button>
+          </form>
+        {% endif %}
+        {% block content %} {% endblock %}
+      </header1>
   </body>
 </html>
