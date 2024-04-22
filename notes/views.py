@@ -65,6 +65,10 @@ def detalhes_formulario(request, formulario_id):
     perguntas = Pergunta.objects.filter(formulario=formulario)
     return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas})
 
+@login_required
+def meus_formularios(request):
+    meus_formularios = Formulario.objects.filter(usuario=request.user)
+    return render(request, 'meus_formularios.html', {'meus_formularios': meus_formularios})
 
 def adicionar_pergunta(request, formulario_id):
     if request.method == 'POST':
