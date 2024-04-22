@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -48,7 +48,11 @@ def er(request):
     # return render(request, 'notes/cadastro.html')
 
 
-# views.py
+
+#----------------------------------------------------------------------------------------------------------------------------------
+
+
+@login_required
 
 def criar_formulario(request):
     if request.method == 'POST':
@@ -59,7 +63,7 @@ def criar_formulario(request):
         return redirect('detalhes_formulario', formulario_id=formulario.id)
     return render(request, 'criar_formulario.html')
 
-
+@login_required
 def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
     perguntas = Pergunta.objects.filter(formulario=formulario)
@@ -83,6 +87,7 @@ def adicionar_pergunta(request, formulario_id):
                 Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
         return redirect('detalhes_formulario', formulario_id=formulario_id)
     return render(request, 'adicionar_pergunta.html')
+
 
 def editar_pergunta(request, pergunta_id):
     pergunta = get_object_or_404(Pergunta, id=pergunta_id) ## se n achar a pergunta com o id, ele consegue retornar uma pagina 404.
@@ -108,6 +113,25 @@ def excluir_perguntar(request, pergunta_id):
         pergunta.delete()
         return redirect('detalhes_formulario', formulario_id=formulario_id)
     return render(request, 'excluir_pergunta.html', {'pergunta': pergunta})
+
+
+
+perguntas = {}# dicionario para armazenar as perguntas
+
+def criar_pergunta(request):
+    if request.method == 'POST':
+        texto = request.POST.get('texto')
+        tipo = request.POST.get('tipo')
+        opcao = request.POST.get('opcao')
+
+        ##armazenar as novas perguntas no dicionario
+        perguntas[texto] = {'tipo': tipo, 'opcao': opcao}
+
+        ##voltar pra pagina de sucesso ou da pesquisa de satisfação
+        # return HttpResponseRedirect('/sucesso/')
+        redirect('detalhes_formulario')
+
+    return render(request, 'criar_pergunta.html')
 
 
 
