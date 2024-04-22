@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Criar Nova Pergunta</title>
+</head>
+<body>
+    <h1>Criar Nova Pergunta</h1>
+    <form id="criar-pergunta-form" method="post">
+        {% csrf_token %}
+        <label for="texto">Texto da Pergunta:</label><br>
+        <textarea name="texto" required></textarea><br>
+        <label for="tipo">Tipo de Pergunta:</label><br>
+        <select name="tipo" id="tipo-pergunta" required>
+            <option value="TXT">Texto</option>
+            <option value="INT">Intervalo</option>
+            <option value="MUL">Múltipla Escolha</option>
+        </select><br>
+        <div id="opcoes">
+            <label for="opcao">Opções (se for múltipla escolha):</label><br>
+            <input type="text" name="opcao"><br>
+            <!-- da pra adiconar mais opçoes se precisar dps -->
+        </div>
+        <button type="submit">Adicionar Pergunta</button>
+    </form>
+</body>
+</html>

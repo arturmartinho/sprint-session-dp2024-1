@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -107,6 +107,24 @@ def excluir_perguntar(request, pergunta_id):
         pergunta.delete()
         return redirect('detalhes_formulario', formulario_id=formulario_id)
     return render(request, 'excluir_pergunta.html', {'pergunta': pergunta})
+
+
+
+perguntas = {}# dicionario para armazenar as perguntas
+
+def criar_pergunta(request):
+    if request.method == 'POST':
+        texto = request.POST.get('texto')
+        tipo = request.POST.get('tipo')
+        opcao = request.POST.get('opcao')
+
+        ##armazenar as novas perguntas no dicionario
+        perguntas[texto] = {'tipo': tipo, 'opcao': opcao}
+
+        ##voltar pra pagina de sucesso ou da pesquisa de satisfação
+        return HttpResponseRedirect('/sucesso/')
+
+    return render(request, 'criar_pergunta.html')
 
 
 
