@@ -122,7 +122,8 @@ def criar_pergunta(request):
         perguntas[texto] = {'tipo': tipo, 'opcao': opcao}
 
         ##voltar pra pagina de sucesso ou da pesquisa de satisfação
-        return HttpResponseRedirect('/sucesso/')
+        # return HttpResponseRedirect('/sucesso/')
+        redirect('detalhes_formulario')
 
     return render(request, 'criar_pergunta.html')
 
