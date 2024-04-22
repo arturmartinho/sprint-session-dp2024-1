@@ -30,8 +30,13 @@ class Opcao(models.Model):
     pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
     texto = models.CharField(max_length=100)
 
-class Formulario(models.Model):
+class Formularios(models.Model):
     nome = models.CharField(max_length=100)
     descricao = models.CharField(max_length=9999)
     data_criacao = models.DateTimeField(auto_now_add=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+# class Relaciona(models.Model):
+#     id_perg = models.ForeignKey()
+#     id_formulario = models.ForeignKey()
+    

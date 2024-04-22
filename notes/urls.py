@@ -7,6 +7,7 @@ urlpatterns = [
     path('login', views.er, name='er'),
     path('criar_formulario/', views.criar_formulario, name='criar_formulario'),
     path('formulario/<int:formulario_id>/', views.detalhes_formulario, name='detalhes_formulario'),
+    path('criar_pergunta', views.criar_pergunta, name='criar_pergunta'),
 ]
 
     
