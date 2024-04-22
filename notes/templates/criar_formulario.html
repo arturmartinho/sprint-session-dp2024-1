@@ -2,15 +2,19 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Adicionar Pergunta</title>
-    <link rel="stylesheet" href="..\reset.css"  type="text/css">
-    <link rel="stylesheet" href="..\style.css"  type="text/css">
+    <title>Adicionar Formulário</title>
+    <link rel="stylesheet" href="{% static 'notes/style/reset.css' %}"  type="text/css">
+    <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
 </head>
 <body>
-    <h1>Adicionar Formulario</h1>
+    <h1>Adicionar Formulário</h1>
     <form method="post">
         {% csrf_token %}
-        <label for="texto">Texto da Pergunta:</label>
+        <label for="nome">Nome do Formulário:</label>
+        <input type="text" name="nome" required><br>
+        <label for="nome">Descrição do Formulário:</label>
+        <textarea name="descricao" required></textarea><br>
+        <!-- <label for="texto">Texto da Pergunta:</label>
         <textarea name="texto" required></textarea><br>
         <label for="tipo">Tipo de Pergunta:</label>
         <select name="tipo" required>
@@ -20,7 +24,7 @@
         </select><br>
         <div id="opcoes" style="display: none;">
             <label for="opcao">Opções (se for múltipla escolha):</label><br>
-            <input type="text" name="opcao"><br>
+            <input type="text" name="opcao"><br> -->
         </div>
         <button type="submit">Adicionar</button>
     </form>
@@ -35,3 +39,4 @@
     </script>
 </body>
 </html>
+

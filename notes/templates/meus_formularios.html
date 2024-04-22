@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'notes/style/reset.css' %}"  type="text/css">
+    <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Formulários</title>
+</head>
+<body>
+    <h1>Meus Formulários</h1>
+    <ul>
+        {% for formulario in meus_formularios %}
+            <li>{{ formulario.nome }} - {{ formulario.data_criacao }}</li>
+        {% empty %}
+            <li>Você ainda não adicionou nenhum formulário.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

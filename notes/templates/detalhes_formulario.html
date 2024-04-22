@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'notes/style/reset.css' %}"  type="text/css">
+    <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Formulário</title>
+</head>
+<body>
+    <h1>Detalhes do Formulário</h1>
+    <p><strong>Nome do Formulário:</strong> {{ formulario.nome }}</p>
+    <p><strong>Descrição Formulário:</strong> {{ formulario.descricao }}</p>
+    <p><strong>Data de Criação:</strong> {{ formulario.data_criacao }}</p>
+    <label for="texto">Texto da Pergunta:</label>
+        <!-- <textarea name="texto" required></textarea><br> -->
+        <label for="tipo">Tipo de Pergunta:</label>
+        <select name="tipo" required>
+            <option value="TXT">Texto</option>
+            <option value="INT">Intervalo</option>
+            <option value="MUL">Múltipla Escolha</option>
+        </select><br>
+        <div id="opcoes" style="display: none;">
+            <label for="opcao">Opções (se for múltipla escolha):</label><br>
+            <input type="text" name="opcao"><br>
+</body>
+</html>
