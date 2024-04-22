@@ -10,11 +10,16 @@
     <p><strong>Nome do Formulário:</strong> {{ formulario.nome }}</p>
     <p><strong>Descrição Formulário:</strong> {{ formulario.descricao }}</p>
     <p><strong>Data de Criação:</strong> {{ formulario.data_criacao }}</p>
-    <!-- <h2>Perguntas do Formulário:</h2>
-    <ul>
-        {% for pergunta in perguntas %}
-            <li>{{ pergunta.texto }}</li>
-        {% endfor %}
-    </ul> -->
+    <label for="texto">Texto da Pergunta:</label>
+        <!-- <textarea name="texto" required></textarea><br> -->
+        <label for="tipo">Tipo de Pergunta:</label>
+        <select name="tipo" required>
+            <option value="TXT">Texto</option>
+            <option value="INT">Intervalo</option>
+            <option value="MUL">Múltipla Escolha</option>
+        </select><br>
+        <div id="opcoes" style="display: none;">
+            <label for="opcao">Opções (se for múltipla escolha):</label><br>
+            <input type="text" name="opcao"><br>
 </body>
 </html>

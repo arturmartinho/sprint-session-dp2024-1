@@ -51,9 +51,7 @@ def er(request):
 #----------------------------------------------------------------------------------------------------------------------------------
 
 
-
-# views.py
-
+@login_required
 def criar_formulario(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')  # Usar get() para evitar exceção se a chave não existir
@@ -63,7 +61,7 @@ def criar_formulario(request):
         return redirect('detalhes_formulario', formulario_id=formulario.id)
     return render(request, 'criar_formulario.html')
 
-
+@login_required
 def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
     perguntas = Pergunta.objects.filter(formulario=formulario)
@@ -83,6 +81,7 @@ def adicionar_pergunta(request, formulario_id):
                 Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
         return redirect('detalhes_formulario', formulario_id=formulario_id)
     return render(request, 'adicionar_pergunta.html')
+
 
 def editar_pergunta(request, pergunta_id):
     pergunta = get_object_or_404(Pergunta, id=pergunta_id) ## se n achar a pergunta com o id, ele consegue retornar uma pagina 404.
