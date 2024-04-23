@@ -32,7 +32,11 @@
         <input type="text" name="opcao"><br>
     </div>
 
-    <!-- {{% for perg in Pergunta %}} -->
+    {% for perg in perguntas %}
+    <li>{{ perg.texto }}</li>
+
+
+    {% endfor %}
 
 </body>
 </html>

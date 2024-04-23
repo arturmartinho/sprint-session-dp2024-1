@@ -91,6 +91,7 @@ def criar_formulario(request):
 def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
     perguntas = Pergunta.objects.filter(usuario=request.user)
+    print(perguntas)
     return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas})
 
 @login_required
@@ -147,10 +148,9 @@ def criar_pergunta(request):
     if request.method == 'POST':
         texto = request.POST.get('texto')
         tipo = request.POST.get('tipo')
-        opcao = request.POST.get('opcao')
+        usuario = request.user
+        pergunta = Pergunta.objects.create(texto=texto,tipo=tipo,usuario=usuario)
 
-        ##armazenar as novas perguntas no dicionario
-        perguntas[texto] = {'tipo': tipo, 'opcao': opcao}
 
         ##voltar pra pagina de sucesso ou da pesquisa de satisfação
         # return HttpResponseRedirect('/sucesso/')
