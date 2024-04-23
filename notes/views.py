@@ -60,10 +60,25 @@ def criar_formulario(request):
         return redirect('detalhes_formulario', formulario_id=formulario.id)
     return render(request, 'criar_formulario.html')
 
+
 def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
     perguntas = Pergunta.objects.filter(formulario=formulario)
     return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas})
+
+
+def editar_formulario(request, formulario_id):
+    formulario = get_object_or_404(Formulario, id=formulario_id)
+    
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        descricao = request.POST.get('descricao')
+        formulario.nome = nome
+        formulario.descricao = descricao
+        formulario.save()
+        return redirect('detalhes_formulario', formulario_id=formulario.id)
+    return render(request, 'editar_formulario.html', {'formulario': formulario})
+
 
 def adicionar_pergunta(request, formulario_id):
     if request.method == 'POST':

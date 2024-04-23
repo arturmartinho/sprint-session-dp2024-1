@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Formulário</title>
+</head>
+<body>
+    <h1>Editar Formulário</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_nome">Nome:</label><br>
+        <input type="text" id="id_nome" name="nome" value="{{ formulario.nome }}"><br><br>
+        
+        <label for="id_descricao">Descrição:</label><br>
+        <textarea id="id_descricao" name="descricao">{{ formulario.descricao }}</textarea><br><br>
+        
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>
