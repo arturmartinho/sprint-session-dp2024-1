@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
 </head>
 <body>
+    <header>
     <h1>Criar Nova Pergunta</h1>
+    </header>
     <form id="criar-pergunta-form" method="post">
         {% csrf_token %}
         <label for="texto">Texto da Pergunta:</label><br>

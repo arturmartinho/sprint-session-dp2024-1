@@ -1,16 +1,11 @@
 header {
     width: 100%;
     height: 2rem;
-    align-items: flex-start;
+    align-items: end;
     overflow: hidden;
     background-color: #7c7b7b;
     font-size: 16px;
     font-family: "Open Sans" sans-serif;
-}
-
-a:hover {
-    background-color: #ddd;
-    color: black;
 }
 
 h1 {
@@ -28,12 +23,18 @@ header1 {
 }
 
 a {
+    float: right;
     display: block;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     align-items: flex-end;
+}
+
+a:hover {
+    background-color: #ddd;
+    color: black;
 }
 
 body {
@@ -45,4 +46,8 @@ body {
 button {
     height: fit-content;
     width: 3rem;
+}
+
+form {
+    align-items: center;
 }

@@ -1,9 +1,11 @@
 {% extends "usuarios/base.html" %}
-<header>
+<header1>
     {% block content %}
-    Boas vindas
+    <h1>Boas vindas</h1>
+    {% comment %} {% if user.is_not_authenticated %} {% endcomment %}
     <a href="/accounts/login">Login</a>
 
     <a href="/cadastro">Cadastrar</a>
-</header>
+    {% comment %} {% endif %} {% endcomment %}
 {% endblock %}
+</header1>

@@ -15,8 +15,13 @@
           <button type="submit">Sair</button>
           </form>
         {% endif %}
-      </header1>
-        {% block content %} {% endblock %}
       
+        {% block content %} {% endblock %}
+      </header1>
+      {% if user.is_authenticated %}
+      <a href="/criar_formulario">Criar formulario</a>
+
+      <a href="/criar_pergunta">Criar pergunta</a>
+      {% endif %}
   </body>
 </html>
