@@ -68,7 +68,10 @@ def criar_formulario(request):
             "nome"
         )  # Usar get() para evitar exceção se a chave não existir
         descricao = request.POST.get("descricao")
-        formulario = Formulario.objects.create(nome=nome, descricao=descricao)
+        usuario = request.user
+        formulario = Formulario.objects.create(
+            nome=nome, descricao=descricao, usuario=usuario
+        )
 
         return redirect("detalhes_formulario", formulario_id=formulario.id)
     return render(request, "criar_formulario.html")
@@ -82,14 +85,6 @@ def detalhes_formulario(request, formulario_id):
         request,
         "detalhes_formulario.html",
         {"formulario": formulario, "perguntas": perguntas},
-    )
-
-
-@login_required
-def meus_formularios(request):
-    meus_formularios = Formulario.objects.filter(usuario=request.user)
-    return render(
-        request, "meus_formularios.html", {"meus_formularios": meus_formularios}
     )
 
 

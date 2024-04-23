@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,7 +9,9 @@
     <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
 </head>
 <body>
+    <header1>
     <h1>Cadastro de Usuário</h1>
+    </header1>
     <form method="post" action="">
         {% csrf_token %}
         <label for="username">Nome de Usuário:</label><br>
