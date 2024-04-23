@@ -3,7 +3,29 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Formulario, Pergunta, Opcao
+from django.template.loader import get_template
+from django.template import Context
+from reportlab.pdfgen import canvas
 
+def gerar_pdf(request, formulario_id):
+    # Recupere os dados do formulário com o ID fornecido
+    formulario = Formulario.objects.get(id=formulario_id)
+    
+    # Crie um objeto PDF usando o ReportLab
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{formulario.nome}.pdf"'
+    
+    p = canvas.Canvas(response)
+    p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
+    p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
+    p.drawString(100, 710, f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}")
+
+    # Adicione mais informações conforme necessário
+
+    p.showPage()
+    p.save()
+
+    return response
 
 # def cadastrar(request):
 #     if request.method == 'POST':
