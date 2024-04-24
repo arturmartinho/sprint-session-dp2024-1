@@ -14,6 +14,7 @@
     <form method="post">
         {% csrf_token %}
         <label for="nome">Nome do Formulário:</label>
+        
         <input type="text" name="nome" required><br>
         <label for="nome">Descrição do Formulário:</label>
         <textarea name="descricao" required></textarea><br>
@@ -29,6 +30,7 @@
             <label for="opcao">Opções (se for múltipla escolha):</label><br>
             <input type="text" name="opcao"><br> -->
         </div>
+        <br>
         <button type="submit">Adicionar</button>
     </form>
     <script>
