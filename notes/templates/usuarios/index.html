@@ -1,10 +1,18 @@
 {% extends "usuarios/base.html" %}
 
-{% block content %}
+    {% block content %}
+    <header1>
+        <div class="center">
+    <h1>Boas vindas</h1>
+        </div>
+    <div>
+    {% if user.is__authenticated %}
+        <p></p>
+    {% else %}
+    <a class="right" href="/accounts/login">Login</a>
 
-Boas vindas
-<a href="/accounts/login">Login</a>
-
-<a href="/cadastro">Cadastrar</a>
-
-{% endblock %}
+    <a class="right" href="/cadastro">Cadastrar</a>
+     {% endif %}
+    </div>
+</header1>
+    {% endblock %}
