@@ -6,13 +6,13 @@
     <h1>Boas vindas</h1>
         </div>
     <div>
-    {% if user.is__authenticated %}
-        <p></p>
-    {% else %}
-    <a class="right" href="/accounts/login">Login</a>
+        {% if user.is__authenticated %}
+            <p></p>
+        {% else %}
+            <a class="right" href="/accounts/login">Login</a>
 
-    <a class="right" href="/cadastro">Cadastrar</a>
-     {% endif %}
+            <a class="right" href="/cadastro">Cadastrar</a>
+        {% endif %}
     </div>
 </header1>
     {% endblock %}
