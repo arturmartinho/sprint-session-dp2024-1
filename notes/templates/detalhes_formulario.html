@@ -15,16 +15,34 @@
     <p><strong>Nome do Formulário:</strong> {{ formulario.nome }}</p>
     <p><strong>Descrição Formulário:</strong> {{ formulario.descricao }}</p>
     <p><strong>Data de Criação:</strong> {{ formulario.data_criacao }}</p>
-    <label for="texto">Texto da Pergunta:</label>
-        <!-- <textarea name="texto" required></textarea><br> -->
+    
+    <!-- Move o form para fora da tag select -->
+    <form action="{% url 'formulario_pdf' formulario.id %}" method="post">
+        {% csrf_token %}
+        
         <label for="tipo">Tipo de Pergunta:</label>
+        <!-- Remove a tag select -->
         <select name="tipo" required>
             <option value="TXT">Texto</option>
             <option value="INT">Intervalo</option>
             <option value="MUL">Múltipla Escolha</option>
         </select><br>
-        <div id="opcoes" style="display: none;">
-            <label for="opcao">Opções (se for múltipla escolha):</label><br>
-            <input type="text" name="opcao"><br>
+        
+        <!-- Adicione o botão de submit dentro do form -->
+        <button type="submit">Gerar PDF</button>
+    </form>
+    
+    <div id="opcoes" style="display: none;">
+        <label for="opcao">Opções (se for múltipla escolha):</label><br>
+        <input type="text" name="opcao"><br>
+    </div>
+
+    {% for perg in perguntas %}
+    <li>{{ perg.texto }}</li>
+
+
+    {% endfor %}
+
 </body>
 </html>
+

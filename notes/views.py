@@ -3,7 +3,29 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Formulario, Pergunta, Opcao
+from django.template.loader import get_template
+from django.template import Context
+from reportlab.pdfgen import canvas
 
+def gerar_pdf(request, formulario_id):
+    # Recupere os dados do formulário com o ID fornecido
+    formulario = Formulario.objects.get(id=formulario_id)
+    
+    # Crie um objeto PDF usando o ReportLab
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{formulario.nome}.pdf"'
+    
+    p = canvas.Canvas(response)
+    p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
+    p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
+    p.drawString(100, 710, f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}")
+
+    # Adicione mais informações conforme necessário
+
+    p.showPage()
+    p.save()
+
+    return response
 
 # def cadastrar(request):
 #     if request.method == 'POST':
@@ -80,13 +102,10 @@ def criar_formulario(request):
 @login_required
 def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
-    perguntas = Pergunta.objects.filter(formulario=formulario)
-    return render(
-        request,
-        "detalhes_formulario.html",
-        {"formulario": formulario, "perguntas": perguntas},
-    )
 
+    perguntas = Pergunta.objects.filter(usuario=request.user)
+    print(perguntas)
+    return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas})
 
 @login_required
 def meus_formularios(request):
@@ -97,9 +116,11 @@ def meus_formularios(request):
 
 
 def adicionar_pergunta(request, formulario_id):
-    if request.method == "POST":
-        texto = request.POST["texto"]
-        tipo = request.POST["tipo"]
+
+    if request.method == 'POST':
+        
+        texto = request.POST['texto']
+        tipo = request.POST['tipo']
         formulario = Formulario.objects.get(id=formulario_id)
         pergunta = Pergunta.objects.create(
             formulario=formulario, texto=texto, tipo=tipo
@@ -178,13 +199,12 @@ perguntas = {}  # dicionario para armazenar as perguntas
 
 
 def criar_pergunta(request):
-    if request.method == "POST":
-        texto = request.POST.get("texto")
-        tipo = request.POST.get("tipo")
-        opcao = request.POST.get("opcao")
 
-        ##armazenar as novas perguntas no dicionario
-        perguntas[texto] = {"tipo": tipo, "opcao": opcao}
+    if request.method == 'POST':
+        texto = request.POST.get('texto')
+        tipo = request.POST.get('tipo')
+        usuario = request.user
+        pergunta = Pergunta.objects.create(texto=texto,tipo=tipo,usuario=usuario)
 
         ##voltar pra pagina de sucesso ou da pesquisa de satisfação
         # return HttpResponseRedirect('/sucesso/')
