@@ -108,6 +108,7 @@ def criar_formulario(request):
 @login_required
 def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
+
     perguntas = Pergunta.objects.filter(usuario=request.user)
     print(perguntas)
     return render(
@@ -126,6 +127,7 @@ def meus_formularios(request):
 
 
 def adicionar_pergunta(request, formulario_id):
+
     if request.method == "POST":
 
         texto = request.POST["texto"]
@@ -208,6 +210,7 @@ perguntas = {}  # dicionario para armazenar as perguntas
 
 
 def criar_pergunta(request):
+
     if request.method == "POST":
         texto = request.POST.get("texto")
         tipo = request.POST.get("tipo")
