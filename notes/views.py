@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Formulario, Pergunta, Opcao
+from .models import *
 from django.template.loader import get_template
 from django.template import Context
 from reportlab.pdfgen import canvas
@@ -99,20 +99,11 @@ def meus_formularios(request):
     meus_formularios = Formulario.objects.filter(usuario=request.user)
     return render(request, 'meus_formularios.html', {'meus_formularios': meus_formularios})
 
-def adicionar_pergunta(request, formulario_id):
-    if request.method == 'POST':
-        
-        texto = request.POST['texto']
-        tipo = request.POST['tipo']
-        formulario = Formulario.objects.get(id=formulario_id)
-        pergunta = Pergunta.objects.create(formulario=formulario, texto=texto, tipo=tipo)
-        # Se for uma pergunta de múltipla escolha, adicione opções
-        if tipo == Pergunta.MULTIPLA_ESCOLHA:
-            opcoes = request.POST.getlist('opcao')
-            for opcao_texto in opcoes:
-                Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
-        return redirect('detalhes_formulario', formulario_id=formulario_id)
-    return render(request, 'adicionar_pergunta.html')
+def adicionar_pergunta(request, formulario_id, pergunta_id):
+    formulario = Formulario.objects.get(id=formulario_id)
+    pergunta = Pergunta.objects.get(id=pergunta_id)
+    Relaciona.objects.create(id_formulario = formulario, id_perg = pergunta)
+    return redirect('detalhes_formulario', formulario_id=formulario_id)
 
 
 def editar_pergunta(request, pergunta_id):
