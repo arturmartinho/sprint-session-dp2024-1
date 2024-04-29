@@ -1,7 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'notes/style/reset.css' %}"  type="text/css">
+    <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Formulário</title>
 </head>
@@ -11,6 +14,6 @@
    <li>{{ forms.descricao }}</li>   
    <li>{{ forms.data_criacao }}</li>   
    {% endfor %}
-   
+
 </body>
 </html>

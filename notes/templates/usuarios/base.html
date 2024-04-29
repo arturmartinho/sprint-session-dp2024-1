@@ -4,18 +4,25 @@
   <head>
     <meta charset="UTF-8" />
     <title>Get-it</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="{% static 'notes/style/reset.css' %}"  type="text/css">
+    <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
   </head>
   <body>
-    {% if user.is_authenticated %}
-    {{ user.first_name }} <form action="{% url 'logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Sair</button>
-    </form>
-    {% endif %}
-  
-    {% block content %} {% endblock %}
+    <header1>
+        {% if user.is_authenticated %}
+        {{ user.first_name }} <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Sair</button>
+          </form>
+        {% endif %}
+      
+        {% block content %} {% endblock %}
+      </header1>
+      {% if user.is_authenticated %}
+      <br>
+      <a class="but", href="/criar_formulario">Criar formulario</a>
+      <br>
+      <a class="but" href="/criar_pergunta">Criar pergunta</a>
+      {% endif %}
   </body>
 </html>

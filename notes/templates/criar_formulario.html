@@ -1,13 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8" />
     <title>Adicionar Formulário</title>
+    <link rel="stylesheet" href="{% static 'notes/style/reset.css' %}"  type="text/css">
+    <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
 </head>
 <body>
+    <header1>
     <h1>Adicionar Formulário</h1>
+    </header1>
     <form method="post">
         {% csrf_token %}
         <label for="nome">Nome do Formulário:</label>
+        
         <input type="text" name="nome" required><br>
         <label for="nome">Descrição do Formulário:</label>
         <textarea name="descricao" required></textarea><br>
@@ -23,6 +30,7 @@
             <label for="opcao">Opções (se for múltipla escolha):</label><br>
             <input type="text" name="opcao"><br> -->
         </div>
+        <br>
         <button type="submit">Adicionar</button>
     </form>
     <script>
