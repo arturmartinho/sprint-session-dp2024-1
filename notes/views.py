@@ -104,8 +104,11 @@ def detalhes_formulario(request, formulario_id):
     formulario = Formulario.objects.get(id=formulario_id)
 
     perguntas = Pergunta.objects.filter(usuario=request.user)
-    print(perguntas)
-    return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas})
+    relacionas = Relaciona.objects.filter(id_formulario=formulario_id)
+    lista_id = []
+    for i in relacionas:
+        lista_id.append(i.id_perg.id)
+    return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas,'lista_id':lista_id})
 
 @login_required
 def meus_formularios(request):
@@ -115,73 +118,63 @@ def meus_formularios(request):
     )
 
 
-def adicionar_pergunta(request, formulario_id):
-
-    if request.method == 'POST':
+def adicionar_pergunta(request, formulario_id, pergunta_id):
         
-        texto = request.POST['texto']
-        tipo = request.POST['tipo']
-        formulario = Formulario.objects.get(id=formulario_id)
-        pergunta = Pergunta.objects.create(
-            formulario=formulario, texto=texto, tipo=tipo
-        )
-        # Se for uma pergunta de múltipla escolha, adicione opções
-        if tipo == Pergunta.MULTIPLA_ESCOLHA:
-            opcoes = request.POST.getlist("opcao")
-            for opcao_texto in opcoes:
-                Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
-        return redirect("detalhes_formulario", formulario_id=formulario_id)
-    return render(request, "adicionar_pergunta.html")
+    formulario = Formulario.objects.get(id=formulario_id)
+    pergunta = Pergunta.objects.get(id=pergunta_id)
+    Relaciona.objects.create(id_perg=pergunta,id_formulario=formulario)
+
+    return redirect("detalhes_formulario", formulario_id=formulario_id)
 
 
-def editar_pergunta(request, pergunta_id):
-    pergunta = get_object_or_404(
-        Pergunta, id=pergunta_id
-    )  ## se n achar a pergunta com o id, ele consegue retornar uma pagina 404.
-    if request.method == "POST":
-        texto = request.POST["texto"]  ##pegar os dados do formulario
-        tipo = request.POST["tipo"]
-        pergunta.texto = (
-            texto  # pra atualizar os novos campos de texto e tipo da perguta
-        )
-        pergunta.tipo = tipo
-        pergunta.save()  ##deixar salvo no banco de dados
-        if (
-            tipo == pergunta.MULTIPLA_ESCOLHA
-        ):  ##atualizar as opçoes se for de multipla escolha
-            opcoes = request.POST.getlist("opcao")
-            pergunta.opcao_set.all().delete()  ##apaga as opçoes existentes
-            for opcao_texto in opcoes:
-                Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
-        return redirect("detalhes_formulario", formulario_id=formulario_id)
-    return render(request, "adicionar_pergunta.html")
+# def editar_pergunta(request, pergunta_id):
+#     pergunta = get_object_or_404(
+#         Pergunta, id=pergunta_id
+#     )  ## se n achar a pergunta com o id, ele consegue retornar uma pagina 404.
+#     if request.method == "POST":
+#         texto = request.POST["texto"]  ##pegar os dados do formulario
+#         tipo = request.POST["tipo"]
+#         pergunta.texto = (
+#             texto  # pra atualizar os novos campos de texto e tipo da perguta
+#         )
+#         pergunta.tipo = tipo
+#         pergunta.save()  ##deixar salvo no banco de dados
+#         if (
+#             tipo == pergunta.MULTIPLA_ESCOLHA
+#         ):  ##atualizar as opçoes se for de multipla escolha
+#             opcoes = request.POST.getlist("opcao")
+#             pergunta.opcao_set.all().delete()  ##apaga as opçoes existentes
+#             for opcao_texto in opcoes:
+#                 Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
+#         return redirect("detalhes_formulario", formulario_id=formulario_id)
+#     return render(request, "adicionar_pergunta.html")
 
 
-def editar_pergunta(request, pergunta_id):
-    pergunta = get_object_or_404(
-        Pergunta, id=pergunta_id
-    )  ## se n achar a pergunta com o id, ele consegue retornar uma pagina 404.
-    if request.method == "POST":
-        texto = request.POST["texto"]  ##pegar os dados do formulario
-        tipo = request.POST["tipo"]
-        pergunta.texto = (
-            texto  # pra atualizar os novos campos de texto e tipo da perguta
-        )
-        pergunta.tipo = tipo
-        pergunta.save()  ##deixar salvo no banco de dados
-        if (
-            tipo == pergunta.MULTIPLA_ESCOLHA
-        ):  ##atualizar as opçoes se for de multipla escolha
-            opcoes = request.POST.getlist("opcao")
-            pergunta.opcao_set.all().delete()  ##apaga as opçoes existentes
-            for opcao_texto in opcoes:
-                Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
-        return redirect(
-            "detalhes_formulario", formulario_id=pergunta.formulario.id
-        )  ##voltar pra pagina de detalhes do formulario
-    return render(
-        request, "editar_pergunta.html", {"pergunta": pergunta}
-    )  ##renderizar o template de pergunta caso n for POST
+# def editar_pergunta(request, pergunta_id):
+#     pergunta = get_object_or_404(
+#         Pergunta, id=pergunta_id
+#     )  ## se n achar a pergunta com o id, ele consegue retornar uma pagina 404.
+#     if request.method == "POST":
+#         texto = request.POST["texto"]  ##pegar os dados do formulario
+#         tipo = request.POST["tipo"]
+#         pergunta.texto = (
+#             texto  # pra atualizar os novos campos de texto e tipo da perguta
+#         )
+#         pergunta.tipo = tipo
+#         pergunta.save()  ##deixar salvo no banco de dados
+#         if (
+#             tipo == pergunta.MULTIPLA_ESCOLHA
+#         ):  ##atualizar as opçoes se for de multipla escolha
+#             opcoes = request.POST.getlist("opcao")
+#             pergunta.opcao_set.all().delete()  ##apaga as opçoes existentes
+#             for opcao_texto in opcoes:
+#                 Opcao.objects.create(pergunta=pergunta, texto=opcao_texto)
+#         return redirect(
+#             "detalhes_formulario", formulario_id=pergunta.formulario.id
+#         )  ##voltar pra pagina de detalhes do formulario
+#     return render(
+#         request, "editar_pergunta.html", {"pergunta": pergunta}
+#     )  ##renderizar o template de pergunta caso n for POST
 
 
 def excluir_perguntar(request, pergunta_id):
@@ -211,3 +204,22 @@ def criar_pergunta(request):
         # redirect('detalhes_formulario')
 
     return render(request, "criar_pergunta.html")
+
+def remover_pergunta(resquest, formulario_id, pergunta_id):
+    objeto = Relaciona.objects.filter(id_formulario=formulario_id,id_perg=pergunta_id)
+    objeto.delete()
+    return redirect("detalhes_formulario", formulario_id=formulario_id)
+
+def editar_pergunta(request, pergunta_id):
+    objeto = Pergunta.objects.get(id=pergunta_id)
+    if request.method == 'POST':
+        texto = request.POST.get('texto')
+        objeto.texto = texto
+        tipo = request.POST.get('tipo')
+        objeto.tipo = tipo
+        objeto.save()
+        return redirect (request, 'editar_pergunta', pergunta_id=pergunta_id)
+    return render (request, 'editar_pergunta.html', {'pergunta': objeto})
+
+
+    
