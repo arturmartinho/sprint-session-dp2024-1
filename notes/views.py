@@ -43,7 +43,7 @@ def gerar_pdf(request, formulario_id):
         y = 690 
         for relaciona in relacionas:
             p.drawString(100, y, f"Pergunta: {relaciona.id_perg.texto}")
-            y -= 20  # Ajuste a posição para a próxima pergunta
+            y -= 100  # Ajuste a posição para a próxima pergunta
 
         p.showPage()
         p.save()
