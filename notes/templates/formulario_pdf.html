@@ -4,30 +4,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'notes/style/reset.css' %}"  type="text/css">
+    <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário PDF</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-    </style>
+
 </head>
-<body>
+<body><header>
+    <h1>Detalhes do Formulário</h1>
+</header>
     <div class="container">
-        <h1>Detalhes do Formulário</h1>
         <p><strong>Nome do Formulário:</strong> {{ formulario.nome }}</p>
         <p><strong>Descrição do Formulário:</strong> {{ formulario.descricao }}</p>
         <p><strong>Data de Criação:</strong> {{ formulario.data_criacao }}</p>
