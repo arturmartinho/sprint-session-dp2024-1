@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
   </head>
   <body>
-    <header1>
+    <header>
         {% if user.is_authenticated %}
         {{ user.first_name }} <form action="{% url 'logout' %}" method="post">
           {% csrf_token %}
@@ -17,12 +17,16 @@
         {% endif %}
       
         {% block content %} {% endblock %}
-      </header1>
+      </header>
       {% if user.is_authenticated %}
       <br>
       <a class="but", href="/criar_formulario">Criar formulario</a>
       <br>
       <a class="but" href="/criar_pergunta">Criar pergunta</a>
+      <br>
+      <div>
+        <a class="but" href="/meus_formularios">Meus Formulários</a>
+        </div>
       {% endif %}
   </body>
 </html>

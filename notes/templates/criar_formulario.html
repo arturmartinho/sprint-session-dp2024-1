@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="{% static 'notes/style/style.css' %}"  type="text/css">
 </head>
 <body>
-    <header1>
+    <header>
+    <a class="but" href="/">Home</a>
     <h1>Adicionar Formulário</h1>
-    </header1>
+    </header>
     <form method="post">
         {% csrf_token %}
         <label for="nome">Nome do Formulário:</label>

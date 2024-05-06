@@ -10,12 +10,14 @@
 </head>
 <body>
 <header>
+    <a class="but" href="/">Home</a>
     <h1>Meus Formulários</h1>
 </header>
     <ul>
         {% for formulario in meus_formularios %}
             <li>{{ formulario.nome }} - {{ formulario.data_criacao }}
                 <a href="{% url 'detalhes_formulario' formulario.id %}">
+                    <br>
                     <button>Acessar</button>
                 </a>
             </li>

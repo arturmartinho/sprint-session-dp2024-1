@@ -7,8 +7,25 @@ from django.template.loader import get_template
 from django.template import Context
 from reportlab.pdfgen import canvas
 
+
 def gerar_pdf(request, formulario_id):
     if request.method == 'POST':
+        # Recupere os dados do formulário com o ID fornecido
+        formulario = Formulario.objects.get(id=formulario_id)
+
+        # Crie um objeto PDF usando o ReportLab
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="{formulario.nome}.pdf"'
+
+        p = canvas.Canvas(response)
+        p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
+        p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
+        p.drawString(
+            100,
+            710,
+            f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}",
+        )
+
 
         formulario = Formulario.objects.get(id=formulario_id)
 
@@ -17,7 +34,7 @@ def gerar_pdf(request, formulario_id):
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{formulario.nome}.pdf"'
-        
+            
         p = canvas.Canvas(response)
         p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
         p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
@@ -32,6 +49,7 @@ def gerar_pdf(request, formulario_id):
         p.save()
 
         return response
+
 
 
 # def cadastrar(request):
@@ -115,7 +133,12 @@ def detalhes_formulario(request, formulario_id):
     lista_id = []
     for i in relacionas:
         lista_id.append(i.id_perg.id)
-    return render(request, 'detalhes_formulario.html', {'formulario': formulario, 'perguntas': perguntas,'lista_id':lista_id})
+    return render(
+        request,
+        "detalhes_formulario.html",
+        {"formulario": formulario, "perguntas": perguntas, "lista_id": lista_id},
+    )
+
 
 @login_required
 def meus_formularios(request):
@@ -126,10 +149,10 @@ def meus_formularios(request):
 
 
 def adicionar_pergunta(request, formulario_id, pergunta_id):
-        
+
     formulario = Formulario.objects.get(id=formulario_id)
     pergunta = Pergunta.objects.get(id=pergunta_id)
-    Relaciona.objects.create(id_perg=pergunta,id_formulario=formulario)
+    Relaciona.objects.create(id_perg=pergunta, id_formulario=formulario)
 
     return redirect("detalhes_formulario", formulario_id=formulario_id)
 
@@ -183,28 +206,30 @@ def adicionar_pergunta(request, formulario_id, pergunta_id):
 #         request, "editar_pergunta.html", {"pergunta": pergunta}
 #     )  ##renderizar o template de pergunta caso n for POST
 
+
 @login_required
-def excluir_pergunta(request, pergunta_id):
+def excluir_pergunta(request, pergunta_id, formulario_id):
     pergunta = get_object_or_404(
         Pergunta, id=pergunta_id
     )  ##tb serve pra retornar um 404, caso n ache a pergunta
-    formulario_id = pergunta.formulario.id
+    
     if request.method == "POST":
         pergunta.delete()
         return redirect("detalhes_formulario", formulario_id=formulario_id)
-    return render(request, "excluir_pergunta.html", {"pergunta": pergunta})
+    return render(request, "detalhes_formulario.html", {"pergunta": pergunta})
 
 
 perguntas = {}  # dicionario para armazenar as perguntas
 
+
 @login_required
 def criar_pergunta(request):
 
-    if request.method == 'POST':
-        texto = request.POST.get('texto')
-        tipo = request.POST.get('tipo')
+    if request.method == "POST":
+        texto = request.POST.get("texto")
+        tipo = request.POST.get("tipo")
         usuario = request.user
-        pergunta = Pergunta.objects.create(texto=texto,tipo=tipo,usuario=usuario)
+        pergunta = Pergunta.objects.create(texto=texto, tipo=tipo, usuario=usuario)
 
         ##voltar pra pagina de sucesso ou da pesquisa de satisfação
         # return HttpResponseRedirect('/sucesso/')
@@ -212,27 +237,32 @@ def criar_pergunta(request):
 
     return render(request, "criar_pergunta.html")
 
+
 @login_required
 def remover_pergunta(resquest, formulario_id, pergunta_id):
-    objeto = Relaciona.objects.filter(id_formulario=formulario_id,id_perg=pergunta_id)
+    objeto = Relaciona.objects.filter(id_formulario=formulario_id, id_perg=pergunta_id)
     objeto.delete()
     return redirect("detalhes_formulario", formulario_id=formulario_id)
+
 
 @login_required
 def editar_pergunta(request, pergunta_id):
     objeto = Pergunta.objects.get(id=pergunta_id)
-    if request.method == 'POST':
-        texto = request.POST.get('texto')
+    if request.method == "POST":
+        texto = request.POST.get("texto")
         objeto.texto = texto
-        tipo = request.POST.get('tipo')
+        tipo = request.POST.get("tipo")
         objeto.tipo = tipo
         objeto.save()
-        return redirect ('editar_pergunta', pergunta_id=pergunta_id)
-    return render (request, 'editar_pergunta.html', {'pergunta': objeto})
+        return redirect("editar_pergunta", pergunta_id=pergunta_id)
+    return render(request, "editar_pergunta.html", {"pergunta": objeto})
 
 
+@login_required
+def excluir_formulario(request, formulario_id):
+    formulario = Formulario.objects.get(id=formulario_id)
+    if request.method == 'POST':
+        formulario.delete()
+        return redirect('meus_formularios')
+    return render(request, 'excluir_formulario.html', {'formulario': formulario})
 
-
-
-
-    
