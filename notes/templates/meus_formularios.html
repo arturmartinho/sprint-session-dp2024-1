@@ -10,20 +10,18 @@
 </head>
 <body>
 <header>
-    <a class="but" href="/">Home</a>
+    <a class="home" href="/">Home</a>
     <h1>Meus Formulários</h1>
 </header>
-    <ul>
         {% for formulario in meus_formularios %}
-            <li>{{ formulario.nome }} - {{ formulario.data_criacao }}
+            <div class= "formularios">{{ formulario.nome }} - {{ formulario.data_criacao }}
                 <a href="{% url 'detalhes_formulario' formulario.id %}">
-                    <br>
                     <button>Acessar</button>
                 </a>
-            </li>
+                <br>
+            </div>
         {% empty %}
             <li>Você ainda não adicionou nenhum formulário.</li>
         {% endfor %}
-    </ul>
 </body>
 </html>
