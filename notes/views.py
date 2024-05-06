@@ -237,3 +237,13 @@ def editar_pergunta(request, pergunta_id):
         objeto.save()
         return redirect("editar_pergunta", pergunta_id=pergunta_id)
     return render(request, "editar_pergunta.html", {"pergunta": objeto})
+
+
+@login_required
+def excluir_formulario(request, formulario_id):
+    formulario = Formulario.objects.get(id=formulario_id)
+    if request.method == 'POST':
+        formulario.delete()
+        return redirect('meus_formularios')
+    return render(request, 'excluir_formulario.html', {'formulario': formulario})
+

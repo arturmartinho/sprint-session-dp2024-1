@@ -16,19 +16,17 @@
     <p><strong>Descrição Formulário:</strong> {{ formulario.descricao }}</p>
     <p><strong>Data de Criação:</strong> {{ formulario.data_criacao }}</p>
     
-    <!-- Move o form para fora da tag select -->
+    <!-- Formulário para gerar PDF -->
     <form action="{% url 'formulario_pdf' formulario.id %}" method="post">
         {% csrf_token %}
         
         <label for="tipo">Tipo de Pergunta:</label>
-        <!-- Remove a tag select -->
         <select name="tipo" required>
             <option value="TXT">Texto</option>
             <option value="INT">Intervalo</option>
             <option value="MUL">Múltipla Escolha</option>
         </select><br>
         
-        <!-- Adicione o botão de submit dentro do form -->
         <button type="submit">Gerar PDF</button>
     </form>
     
@@ -37,20 +35,24 @@
         <input type="text" name="opcao"><br>
     </div>
 
-    {% for perg in perguntas %}
-    <li>{{ perg.texto }}</li>
-    {% if perg.id in lista_id %}
-        <a href="/remover_pergunta/{{ formulario.id }}/{{ perg.id }}">Remover</a>
-    {% else %}
-        <a href="/adicionar_pergunta/{{ formulario.id }}/{{ perg.id }}">Adicionar</a>
-    {% endif %}
-    <a href="/editar_pergunta/{{ perg.id }}">Editar</a>
-    <form action="{% url 'excluir_pergunta' perg.id formulario.id %} " method="post">
+    <!-- Formulário para excluir o formulário -->
+    <form action="{% url 'excluir_formulario' formulario.id %}" method="post">
         {% csrf_token %}
-        <button type="submit">Excluir</button>
+        <button type="submit">Excluir Formulário</button>
     </form>
-{% endfor %}
 
+    {% for perg in perguntas %}
+        <li>{{ perg.texto }}</li>
+        {% if perg.id in lista_id %}
+            <a href="/remover_pergunta/{{ formulario.id }}/{{ perg.id }}">Remover</a>
+        {% else %}
+            <a href="/adicionar_pergunta/{{ formulario.id }}/{{ perg.id }}">Adicionar</a>
+        {% endif %}
+        <a href="/editar_pergunta/{{ perg.id }}">Editar</a>
+        <form action="{% url 'excluir_pergunta' perg.id formulario.id %} " method="post">
+            {% csrf_token %}
+            <button type="submit">Excluir</button>
+        </form>
+    {% endfor %}
 </body>
 </html>
-
