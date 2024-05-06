@@ -176,7 +176,7 @@ def adicionar_pergunta(request, formulario_id, pergunta_id):
 #         request, "editar_pergunta.html", {"pergunta": pergunta}
 #     )  ##renderizar o template de pergunta caso n for POST
 
-
+@login_required
 def excluir_perguntar(request, pergunta_id):
     pergunta = get_object_or_404(
         Pergunta, id=pergunta_id
@@ -190,7 +190,7 @@ def excluir_perguntar(request, pergunta_id):
 
 perguntas = {}  # dicionario para armazenar as perguntas
 
-
+@login_required
 def criar_pergunta(request):
 
     if request.method == 'POST':
@@ -205,11 +205,13 @@ def criar_pergunta(request):
 
     return render(request, "criar_pergunta.html")
 
+@login_required
 def remover_pergunta(resquest, formulario_id, pergunta_id):
     objeto = Relaciona.objects.filter(id_formulario=formulario_id,id_perg=pergunta_id)
     objeto.delete()
     return redirect("detalhes_formulario", formulario_id=formulario_id)
 
+@login_required
 def editar_pergunta(request, pergunta_id):
     objeto = Pergunta.objects.get(id=pergunta_id)
     if request.method == 'POST':
@@ -220,6 +222,10 @@ def editar_pergunta(request, pergunta_id):
         objeto.save()
         return redirect ('editar_pergunta', pergunta_id=pergunta_id)
     return render (request, 'editar_pergunta.html', {'pergunta': objeto})
+
+
+
+
 
 
     

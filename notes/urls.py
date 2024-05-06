@@ -12,6 +12,7 @@ urlpatterns = [
     path('adicionar_pergunta/<int:formulario_id>/<int:pergunta_id>/',views.adicionar_pergunta, name='adiciona_pergunta'),
     path('remover_pergunta/<int:formulario_id>/<int:pergunta_id>/',views.remover_pergunta, name='remover_pergunta'),
     path('editar_pergunta/<int:pergunta_id>/', views.editar_pergunta, name='editar_pergunta'),
+    path('meus_formularios/', views.meus_formularios, name='meus_formularios')
 ]
 
     

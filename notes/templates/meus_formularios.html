@@ -14,7 +14,11 @@
 </header>
     <ul>
         {% for formulario in meus_formularios %}
-            <li>{{ formulario.nome }} - {{ formulario.data_criacao }}</li>
+            <li>{{ formulario.nome }} - {{ formulario.data_criacao }}
+                <a href="{% url 'detalhes_formulario' formulario.id %}">
+                    <button>Acessar</button>
+                </a>
+            </li>
         {% empty %}
             <li>Você ainda não adicionou nenhum formulário.</li>
         {% endfor %}
