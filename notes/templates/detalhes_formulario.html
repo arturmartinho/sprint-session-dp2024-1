@@ -40,12 +40,16 @@
     {% for perg in perguntas %}
     <li>{{ perg.texto }}</li>
     {% if perg.id in lista_id %}
-    <a href="/remover_pergunta/{{ formulario.id }}/{{ perg.id }}">remover</a>
+        <a href="/remover_pergunta/{{ formulario.id }}/{{ perg.id }}">Remover</a>
     {% else %}
-    <a href="/adicionar_pergunta/{{ formulario.id }}/{{ perg.id }}">adicionar</a>
+        <a href="/adicionar_pergunta/{{ formulario.id }}/{{ perg.id }}">Adicionar</a>
     {% endif %}
     <a href="/editar_pergunta/{{ perg.id }}">Editar</a>
-    {% endfor %}
+    <form action="{% url 'excluir_pergunta' perg.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Excluir</button>
+    </form>
+{% endfor %}
 
 </body>
 </html>
