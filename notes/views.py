@@ -177,7 +177,7 @@ def adicionar_pergunta(request, formulario_id, pergunta_id):
 #     )  ##renderizar o template de pergunta caso n for POST
 
 @login_required
-def excluir_perguntar(request, pergunta_id):
+def excluir_pergunta(request, pergunta_id):
     pergunta = get_object_or_404(
         Pergunta, id=pergunta_id
     )  ##tb serve pra retornar um 404, caso n ache a pergunta
