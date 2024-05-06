@@ -1,0 +1,30 @@
+<!-- editar_pergunta.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pergunta</title>
+</head>
+<body>
+    <header>
+    <h1>Editar Pergunta</h1>
+    </header>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="texto">Texto da Pergunta:</label><br>
+        <input type="text" id="texto" name="texto" value="{{ pergunta.texto }}"><br><br>
+
+        <label for="tipo">Tipo de Pergunta:</label><br>
+        <select id="tipo" name="tipo">
+            <option value="Tipo 1" {% if pergunta.tipo == 'Tipo 1' %} selected {% endif %}>Tipo 1</option>
+            <option value="Tipo 2" {% if pergunta.tipo == 'Tipo 2' %} selected {% endif %}>Tipo 2</option>
+            <!-- Adicione mais opções conforme necessário -->
+        </select><br><br>
+
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>

@@ -1,18 +1,19 @@
 {% extends "usuarios/base.html" %}
 
-    {% block content %}
-    <header1>
-        <div class="center">
-    <h1>Boas vindas</h1>
-        </div>
+{% block content %}
+<header>
+    <div class="center">
+        <h1>Boas vindas</h1>
+    </div>
     <div>
-        {% if user.is__authenticated %}
-            <p></p>
+        {% if user.is_authenticated %}
+            <div>
+            <a class="right" href="/meus_formularios">Meus Formulários</a>
+            </div>
         {% else %}
             <a class="right" href="/accounts/login">Login</a>
-
             <a class="right" href="/cadastro">Cadastrar</a>
         {% endif %}
     </div>
-</header1>
-    {% endblock %}
+</header>
+{% endblock %}
