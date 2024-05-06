@@ -11,6 +11,12 @@ header {
     font-family: "Open Sans" sans-serif;
 }
 
+.home {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
 .right {
     align-self: flex-end;
 }
@@ -28,6 +34,10 @@ h1 {
 textarea {
     height: fit-content;
     width: fit-content;
+}
+
+.formularios {
+    border: 3px solid #000000;
 }
 
 a {
