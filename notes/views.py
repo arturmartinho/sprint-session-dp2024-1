@@ -218,7 +218,7 @@ def editar_pergunta(request, pergunta_id):
         tipo = request.POST.get('tipo')
         objeto.tipo = tipo
         objeto.save()
-        return redirect (request, 'editar_pergunta', pergunta_id=pergunta_id)
+        return redirect ('editar_pergunta', pergunta_id=pergunta_id)
     return render (request, 'editar_pergunta.html', {'pergunta': objeto})
 
 
