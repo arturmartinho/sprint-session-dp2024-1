@@ -45,7 +45,7 @@
         <a href="/adicionar_pergunta/{{ formulario.id }}/{{ perg.id }}">Adicionar</a>
     {% endif %}
     <a href="/editar_pergunta/{{ perg.id }}">Editar</a>
-    <form action="{% url 'excluir_pergunta' perg.id %}" method="post">
+    <form action="{% url 'excluir_pergunta' perg.id formulario.id %} " method="post">
         {% csrf_token %}
         <button type="submit">Excluir</button>
     </form>

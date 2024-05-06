@@ -177,15 +177,15 @@ def adicionar_pergunta(request, formulario_id, pergunta_id):
 #     )  ##renderizar o template de pergunta caso n for POST
 
 @login_required
-def excluir_pergunta(request, pergunta_id):
+def excluir_pergunta(request, pergunta_id, formulario_id):
     pergunta = get_object_or_404(
         Pergunta, id=pergunta_id
     )  ##tb serve pra retornar um 404, caso n ache a pergunta
-    formulario_id = pergunta.formulario.id
+    
     if request.method == "POST":
         pergunta.delete()
         return redirect("detalhes_formulario", formulario_id=formulario_id)
-    return render(request, "excluir_pergunta.html", {"pergunta": pergunta})
+    return render(request, "detalhes_formulario.html", {"pergunta": pergunta})
 
 
 perguntas = {}  # dicionario para armazenar as perguntas
