@@ -7,6 +7,8 @@ from django.template.loader import get_template
 from django.template import Context
 from reportlab.pdfgen import canvas
 
+from django.template.loader import render_to_string
+
 def gerar_pdf(request, formulario_id):
     # Recupere os dados do formulário com o ID fornecido
     formulario = Formulario.objects.get(id=formulario_id)
@@ -20,12 +22,17 @@ def gerar_pdf(request, formulario_id):
     p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
     p.drawString(100, 710, f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}")
 
-    # Adicione mais informações conforme necessário
-
+    # Adicione as perguntas ao PDF
+    y_position = 690
+    for pergunta in formulario.pergunta_set.all():
+        y_position -= 20  # Move para cima para a próxima linha
+        p.drawString(100, y_position, f"Pergunta: {pergunta.texto}")
+    
     p.showPage()
     p.save()
 
     return response
+
 
 # def cadastrar(request):
 #     if request.method == 'POST':
