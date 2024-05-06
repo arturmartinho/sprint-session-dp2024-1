@@ -8,24 +8,31 @@ from django.template import Context
 from reportlab.pdfgen import canvas
 
 def gerar_pdf(request, formulario_id):
-    # Recupere os dados do formulário com o ID fornecido
-    formulario = Formulario.objects.get(id=formulario_id)
-    
-    # Crie um objeto PDF usando o ReportLab
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{formulario.nome}.pdf"'
-    
-    p = canvas.Canvas(response)
-    p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
-    p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
-    p.drawString(100, 710, f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}")
+    if request.method == 'POST':
 
-    # Adicione mais informações conforme necessário
+        formulario = Formulario.objects.get(id=formulario_id)
 
-    p.showPage()
-    p.save()
+        perguntas = Pergunta.objects.filter(usuario=request.user)
+        relacionas = Relaciona.objects.filter(id_formulario=formulario_id)
 
-    return response
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{formulario.nome}.pdf"'
+        
+        p = canvas.Canvas(response)
+        p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
+        p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
+        p.drawString(100, 710, f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}")
+
+        y = 690 
+        for relaciona in relacionas:
+            p.drawString(100, y, f"Pergunta: {relaciona.id_perg.texto}")
+            y -= 20  # Ajuste a posição para a próxima pergunta
+
+        p.showPage()
+        p.save()
+
+        return response
+
 
 # def cadastrar(request):
 #     if request.method == 'POST':

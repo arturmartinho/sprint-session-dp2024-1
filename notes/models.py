@@ -27,6 +27,7 @@ class Pergunta(models.Model):
     tipo = models.CharField(max_length=3, choices=TIPOS_PERGUNTA)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
     def __str__(self) -> str:
         return self.texto
 
