@@ -8,47 +8,64 @@ from django.template import Context
 from reportlab.pdfgen import canvas
 
 
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from .models import Formulario, Relaciona
+
 def gerar_pdf(request, formulario_id):
-    if request.method == 'POST':
-        # Recupere os dados do formulário com o ID fornecido
-        formulario = Formulario.objects.get(id=formulario_id)
+    # Recupere o formulário com o ID fornecido
+    formulario = get_object_or_404(Formulario, id=formulario_id)
 
-        # Crie um objeto PDF usando o ReportLab
-        response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = f'attachment; filename="{formulario.nome}.pdf"'
+    # Recupere as perguntas relacionadas ao formulário
+    relacionas = Relaciona.objects.filter(id_formulario=formulario_id)
 
-        p = canvas.Canvas(response)
-        p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
-        p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
-        p.drawString(
-            100,
-            710,
-            f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}",
-        )
+    # Inicialize o objeto de resposta do PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{formulario.nome}.pdf"'
 
+    # Crie um objeto PDF usando o ReportLab
+    p = canvas.Canvas(response)
 
-        formulario = Formulario.objects.get(id=formulario_id)
+    # Defina o número máximo de perguntas por página e a margem inferior
+    max_perguntas_por_pagina = 10
+    margem_inferior = 50
 
-        perguntas = Pergunta.objects.filter(usuario=request.user)
-        relacionas = Relaciona.objects.filter(id_formulario=formulario_id)
+    # Inicialize a posição y para desenhar as perguntas
+    y_position = 750
 
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{formulario.nome}.pdf"'
-            
-        p = canvas.Canvas(response)
-        p.drawString(100, 750, f"Nome do Formulário: {formulario.nome}")
-        p.drawString(100, 730, f"Descrição do Formulário: {formulario.descricao}")
-        p.drawString(100, 710, f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}")
+    # Adicione as informações do formulário à primeira página do PDF
+    p.drawString(100, y_position, f"Nome do Formulário: {formulario.nome}")
+    y_position -= 20  # Mova para a próxima linha
+    p.drawString(100, y_position, f"Descrição do Formulário: {formulario.descricao}")
+    y_position -= 20  # Mova para a próxima linha
+    p.drawString(100, y_position, f"Data de Criação: {formulario.data_criacao.strftime('%d/%m/%Y %H:%M:%S')}")
+    y_position -= 20  # Mova para a próxima linha
 
-        y = 690 
-        for relaciona in relacionas:
-            p.drawString(100, y, f"Pergunta: {relaciona.id_perg.texto}")
-            y -= 100  # Ajuste a posição para a próxima pergunta
+    # Adicione as perguntas relacionadas ao PDF
+    count = 0  # Contador para controlar o número de perguntas por página
+    for relaciona in relacionas:
+        # Mova para a próxima página se o número máximo de perguntas por página for atingido
+        if count >= max_perguntas_por_pagina:
+            p.showPage()  # Mostra a página atual
+            p.drawString(100, margem_inferior, "Continuação...")  # Indica que há mais perguntas na próxima página
+            p.drawString(100, margem_inferior - 20, f"Página 2")  # Indica o número da próxima página
+            p.drawString(100, margem_inferior - 40, f"Nome do Formulário: {formulario.nome}")  # Repete o nome do formulário na próxima página
+            count = 0  # Reseta o contador
+            y_position = 750  # Reseta a posição y
+            continue
 
-        p.showPage()
-        p.save()
+        # Adiciona a pergunta atual ao PDF
+        y_position -= 20  # Mova para a próxima linha
+        p.drawString(100, y_position, f"Pergunta: {relaciona.id_perg.texto}")
+        count += 1  # Incrementa o contador de perguntas
 
-        return response
+    # Salva o PDF
+    p.showPage()
+    p.save()
+
+    return response
+
 
 
 
